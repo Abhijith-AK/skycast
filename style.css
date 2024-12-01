@@ -1,0 +1,100 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body{
+    background: hsl(212, 87%, 45%);
+}
+
+#displayCont{
+        background: rgba(255, 255, 255, 0.2); /* Semi-transparent white */
+        /* backdrop-filter: blur(15px); Apply blur to the background */
+        /* -webkit-backdrop-filter: blur(15px); Safari support */
+        /* border: 1px solid rgba(255, 255, 255, 0.3); Add subtle border */
+        border-radius: 15px; /* Rounded corners */
+        box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1); /* Soft shadow */
+        color: #fff; /* Text color */
+}
+
+#display{
+    background: url(./ASSETS/cloudy.webp) no-repeat center;
+    background-size: cover;
+    min-height: 50vh;
+    position: relative;
+    z-index: 1;
+}
+
+#temperature{
+    font-size: 4rem;
+}
+
+.temp{
+    backdrop-filter: blur(5px);
+    width: 250px;
+    height: 200px;
+    border-radius: 12px;
+}
+
+.para{
+    backdrop-filter: blur(5px);
+}
+
+.days{
+    background: #cbcbcb;
+}
+
+.day{
+    background: hsla(0, 0%, 90%, 0.8);
+}
+
+.blur-background {
+    background: url('https://via.placeholder.com/1920x1080') no-repeat center center fixed;
+    background-size: cover;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px); /* For Safari */
+}
+
+#forecastContainer {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: start;
+    overflow-x: scroll;
+    gap: 1rem;
+    padding: 1rem;
+    cursor: grabbing;
+    user-select: none;
+}
+
+.forecast-item {
+    background: hsla(0, 0%, 90%, 0.8);
+    backdrop-filter: blur(10px);
+    flex: 0 0 150px;
+    padding: 1rem;
+    text-align: center;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    pointer-events: none;
+}
+
+#forecastContainer::-webkit-scrollbar{
+    height: 8px;
+}
+
+#forecastContainer::-webkit-scrollbar-thumb{
+    background-color: rgba(0, 0, 0, 0.3);
+    border-radius: 12px;
+}
+
+.light{
+    color: #000000;
+}
+
+#bookmark{
+    position: absolute;
+    top: 0;
+    right: 0;
+    z-index: 9;
+}
