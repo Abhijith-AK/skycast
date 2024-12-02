@@ -98,3 +98,28 @@ body{
     right: 0;
     z-index: 9;
 }
+
+
+#search {
+    padding: 10px;
+    width: 100%;
+    margin-right: 10px;
+    border-radius: 8px;
+    border: 1px solid #ddd; /* Light border */
+    transition: all 0.3s ease; /* Smooth transition for effects */
+}
+
+#search:focus {
+    outline: none;
+    border: 1px solid #5b5e5b;
+    box-shadow: 0 0 10px rgba(84, 85, 84, 0.5); 
+}
+
+#search:hover {
+    border: 1px solid #888; 
+}
+
+#search::placeholder {
+    color: #888; 
+    font-style: italic; 
+}

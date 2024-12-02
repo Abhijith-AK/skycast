@@ -66,35 +66,35 @@ const getUserLocWeather = async () => {
         let latitude, longitude;
 
         if (!response.ok) {
-            if (navigator.geolocation) {
-                return new Promise((resolve, reject) => {
-                    navigator.geolocation.getCurrentPosition(
-                        (position) => {
-                            latitude = position.coords.latitude;
-                            longitude = position.coords.longitude;
-
-                            fetchWeatherData(latitude, longitude).then(resolve).catch(reject);
-                        },
-                        (error) => {
-                            console.error(`Error Code: ${error.code} - ${error.message}`);
-                            reject(error);
-                        }
-                    );
-                });
-            } else {
-                alert("Please allow location access to get your weather data.");
-                return null;
-            }
-        } else {
-            const locationData = await response.json();
-            const loc = locationData.loc; 
-            [latitude, longitude] = loc.split(',');
-
-            return fetchWeatherData(latitude, longitude);
+            throw new Error("IP-based location blocked or unavailable");
         }
+
+        const locationData = await response.json();
+        const loc = locationData.loc;
+        [latitude, longitude] = loc.split(',');
+
+        return fetchWeatherData(latitude, longitude);
     } catch (err) {
         console.error("Error fetching user location weather:", err);
-        return null;
+        if (navigator.geolocation) {
+            return new Promise((resolve, reject) => {
+                navigator.geolocation.getCurrentPosition(
+                    (position) => {
+                        latitude = position.coords.latitude;
+                        longitude = position.coords.longitude;
+
+                        fetchWeatherData(latitude, longitude).then(resolve).catch(reject);
+                    },
+                    (error) => {
+                        console.error(`Error Code: ${error.code} - ${error.message}`);
+                        reject(error);
+                    }
+                );
+            });
+        } else {
+            alert("Please allow location access / remove shield and blockers to get your weather data.");
+            return null;
+        }
     }
 };
 
@@ -205,7 +205,7 @@ const displayData = async (userLocWeatherData) => {
 
 
 const getSearch = async () => {
-    city = search.value;
+    city = search.value.trim();
     validateCity(city)
     try {
         const apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}`
@@ -225,6 +225,17 @@ const searchAnDisplay = async () => {
     displayHourlyForecast(hourlyData)
     // bookmarkfn();
 }
+
+search.addEventListener('keydown', (event) => {
+    if (event.key === 'Enter') {
+        const inputValue = search.value;
+        if (inputValue) {
+            searchAnDisplay(); 
+        } else {
+            alert('Please enter a value!');
+        }
+    }
+});
 
 const fetchHourlyForecast = async () => {
     try {
