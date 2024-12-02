@@ -84,20 +84,20 @@ document.addEventListener('DOMContentLoaded', async () => {
     fetchHourlyForecast();
     const hourlyData = await fetchHourlyForecast()
     displayHourlyForecast(hourlyData)
-    document.getElementById('bookmark').addEventListener("click",async e => {
-        const city = document.getElementById('city').textContent.toLowerCase();
-        const cities = getSavedCities();
-        if (!cities.includes(city)) {
-            cities.push(city);
-            saveCities(cities);
-            displayCities();
-            search.value = city;
-            const weatherData = await getSearch();
-            displayData(weatherData);
-        } else {
-            alert("City already saved!");
-        }
-    })
+    // document.getElementById('bookmark').addEventListener("click",async e => {
+    //     const city = document.getElementById('city').textContent.toLowerCase();
+    //     const cities = getSavedCities();
+    //     if (!cities.includes(city)) {
+    //         cities.push(city);
+    //         saveCities(cities);
+    //         displayCities();
+    //         search.value = city;
+    //         const weatherData = await getSearch();
+    //         displayData(weatherData);
+    //     } else {
+    //         alert("City already saved!");
+    //     }
+    // })
 })
 
 const displayData = async (userLocWeatherData) => {
@@ -156,7 +156,7 @@ const displayData = async (userLocWeatherData) => {
                         </div>
                         <div class="opt col ${paeameterColorClass}">
                             <h4><em>Sunrise | Sunset</h4>
-                            <img width="35" src="./ASSETS/sunrise.png"></img> | <img width="35" src="./ASSETS/sunset.png"></img>
+                            <i class="ri-sun-cloudy-fill me-3 fs-4"></i> | <i class="ri-sun-foggy-fill ms-3 fs-4"></i> </img>
                             <h6 id="sun" class="">${dataSet.sunrise} | ${dataSet.sunset}</h6>
                         </div>
                     </div>
