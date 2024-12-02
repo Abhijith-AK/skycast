@@ -177,22 +177,22 @@ const displayData = async (userLocWeatherData) => {
                         <h4 id="currWeather" class="">${dataSet.currentWeather} <img id="iconImg" width="50" src="https://openweathermap.org/img/wn/${dataSet.currentWeatherIcon}@2x.png"></img></h4>
                     </div>
                     <div class="row align-items-end para">
-                        <div class="opt col ${paeameterColorClass}">  
+                        <div class="opt col-md-3 col-6 ${paeameterColorClass}">  
                             <h4><em>Humidity</em></h4>
                             <i class="fa-solid fa-droplet fs-4"></i>
                             <h5 id="humidity">${dataSet.humidity}%</h5>
                         </div>
-                        <div class="opt col ${paeameterColorClass}">
+                        <div class="opt col-md-3 col-6 ${paeameterColorClass}">
                             <h4><em>Wind Speed</em></h4>
                             <i class="fa-solid fa-wind fs-4"></i>
                             <h5 id="wind">${dataSet.windDirec} ${dataSet.windSpeed}km/h</h5>
                         </div>
-                        <div class="opt col ${paeameterColorClass}">
+                        <div class="opt col-md-3 col-6 ${paeameterColorClass}">
                             <h4><em>Chance of rain</em></h4>
                             <i class="fa-solid fa-umbrella fs-4"></i>
                             <h5 id="chance">${dataSet.chance}%</h5>
                         </div>
-                        <div class="opt col ${paeameterColorClass}">
+                        <div class="opt col-md-3 col-6 ${paeameterColorClass}">
                             <h4><em>Sunrise | Sunset</h4>
                             <i class="ri-sun-cloudy-fill me-3 fs-4"></i> | <i class="ri-sun-foggy-fill ms-3 fs-4"></i> </img>
                             <h6 id="sun" class="">${dataSet.sunrise} | ${dataSet.sunset}</h6>
@@ -415,7 +415,7 @@ const displayCities = () => {
     cities.forEach((city, index) => {
         const row = document.createElement('tr');
         row.innerHTML = `
-            <td class="cities">${city}</td>
+            <td class="cities">${city}</a></td>
             <td><i class="fa-solid fa-trash text-secondary" data-index="${index}"></i></td>    
         `
         savedList.appendChild(row);
@@ -427,6 +427,12 @@ const displayCities = () => {
                 city = city
                 const hourlyData = await fetchSearchHourlyForcast();
                 displayHourlyForecast(hourlyData)
+                const element = display;
+                element.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'start'
+                })
+
             });
         });
     })

@@ -79,6 +79,15 @@ body{
     pointer-events: none;
 }
 
+.days{
+    flex-wrap: nowrap;
+    overflow-x: auto;
+}
+
+.day{
+    min-width: 110px;
+}
+
 #forecastContainer::-webkit-scrollbar{
     height: 8px;
 }
