@@ -127,7 +127,9 @@ const displayData = async (userLocWeatherData) => {
         const paeameterColorClass = dataSet.currentWeatherIcon.includes('n') ? "text-light" : "light";
         console.log(dataSet.currentWeatherIcon);
         console.log(dataSet.currentWeatherIcon.includes('n'))
-        const bookmark = JSON.parse(localStorage.getItem("cities")).includes(dataSet.name.toLowerCase()) ? "fa-solid" : "fa-regular"
+        getSavedCities()
+        const savedCities = JSON.parse(localStorage.getItem("cities")) || []; // Fallback to an empty array if null
+        const bookmark = savedCities.includes(dataSet.name.toLowerCase()) ? "fa-solid" : "fa-regular"
         console.log(bookmark)
         console.log(textColorClass)
         display.innerHTML = `
