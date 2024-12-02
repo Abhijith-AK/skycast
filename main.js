@@ -61,22 +61,60 @@ const validateCity = async (city) => {
 
 const getUserLocWeather = async () => {
     try {
-        const response = await fetch(userIpLocUrl)
-        const locationData = await response.json();
-        console.log(locationData)
-        const loc = await locationData.loc
-        const [latitude, longitude] = loc.split(',');
-        // latitude = await locationData.latitude;
-        // longitude = await locationData.longitude;
-        const userLocWeatherApi = `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=${apiKey}`;
-        const weatherDataResp = await fetch(userLocWeatherApi);
-        const weatherData = await weatherDataResp.json()
-        return weatherData;
+        const response = await fetch(userIpLocUrl);
+
+        let latitude, longitude;
+
+        if (!response.ok) {
+            if (navigator.geolocation) {
+                return new Promise((resolve, reject) => {
+                    navigator.geolocation.getCurrentPosition(
+                        (position) => {
+                            latitude = position.coords.latitude;
+                            longitude = position.coords.longitude;
+
+                            fetchWeatherData(latitude, longitude).then(resolve).catch(reject);
+                        },
+                        (error) => {
+                            console.error(`Error Code: ${error.code} - ${error.message}`);
+                            reject(error);
+                        }
+                    );
+                });
+            } else {
+                alert("Please allow location access to get your weather data.");
+                return null;
+            }
+        } else {
+            const locationData = await response.json();
+            const loc = locationData.loc; 
+            [latitude, longitude] = loc.split(',');
+
+            return fetchWeatherData(latitude, longitude);
+        }
     } catch (err) {
-        console.log(err)
+        console.error("Error fetching user location weather:", err);
         return null;
     }
-}
+};
+
+const fetchWeatherData = async (latitude, longitude) => {
+    try {
+        const userLocWeatherApi = `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=${apiKey}`;
+        const weatherDataResp = await fetch(userLocWeatherApi);
+
+        if (!weatherDataResp.ok) {
+            throw new Error("Failed to fetch weather data");
+        }
+
+        const weatherData = await weatherDataResp.json();
+        return weatherData;
+    } catch (error) {
+        console.error("Error fetching weather data:", error);
+        throw error;
+    }
+};
+
 
 document.addEventListener('DOMContentLoaded', async () => {
     const userLocWeatherData = await getUserLocWeather();
@@ -193,8 +231,8 @@ const fetchHourlyForecast = async () => {
         // Get user location
         const userLocation = await fetch(userIpLocUrl)
             .then(response => response.json());
-            const loc = await userLocation.loc
-            const [lat, lon] = loc.split(',');
+        const loc = await userLocation.loc
+        const [lat, lon] = loc.split(',');
 
         // Fetch hourly weather
         const hourlyApiUrl = `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=${apiKey}`;
@@ -412,7 +450,7 @@ const deleteCity = (index) => {
 
 // bookmark
 const bookmarkfn = () => {
-    return document.getElementById('bookmark').addEventListener("click",async e => {
+    return document.getElementById('bookmark').addEventListener("click", async e => {
         const city = document.getElementById('city').textContent.toLowerCase();
         const cities = getSavedCities();
         if (!cities.includes(city)) {
