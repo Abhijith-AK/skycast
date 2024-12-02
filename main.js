@@ -480,10 +480,9 @@ const bookmarkfn = () => {
 
 document.getElementById('addCity').addEventListener('click', addCity);
 document.getElementById("saved-list").addEventListener("click", e => {
-
     if (e.target.classList.contains("fa-trash")) {
         const index = e.target.getAttribute("data-index");
-        deleteCity(index);
+        confirm("Confirm to delete") && deleteCity(index);
     }
 })
 
