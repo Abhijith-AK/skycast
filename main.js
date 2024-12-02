@@ -3,7 +3,8 @@ const apiKey = '5ab89a8caedd40754b213c50c7d2509d';
 let city;
 let latitude;
 let longitude;
-const userIpLocUrl = `http://ip-api.com/json/`;
+const userIpLocUrl = 'https://ipinfo.io/json?token=cd213f8a863919';
+
 const hourlyAPI = `https://api.openweathermap.org/data/2.5/forecast?lat=${latitude}&lon=${longitude}&appid=${apiKey}`
 
 // Elements
@@ -62,8 +63,11 @@ const getUserLocWeather = async () => {
     try {
         const response = await fetch(userIpLocUrl)
         const locationData = await response.json();
-        latitude = await locationData.lat;
-        longitude = await locationData.lon;
+        console.log(locationData)
+        const loc = await locationData.loc
+        const [latitude, longitude] = loc.split(',');
+        // latitude = await locationData.latitude;
+        // longitude = await locationData.longitude;
         const userLocWeatherApi = `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=${apiKey}`;
         const weatherDataResp = await fetch(userLocWeatherApi);
         const weatherData = await weatherDataResp.json()
@@ -179,7 +183,7 @@ const searchAnDisplay = async () => {
     displayData(weatherData)
     const hourlyData = await fetchSearchHourlyForcast();
     displayHourlyForecast(hourlyData)
-    bookmark();
+    // bookmarkfn();
 }
 
 const fetchHourlyForecast = async () => {
@@ -187,8 +191,8 @@ const fetchHourlyForecast = async () => {
         // Get user location
         const userLocation = await fetch(userIpLocUrl)
             .then(response => response.json());
-        const lat = userLocation.lat;
-        const lon = userLocation.lon;
+            const loc = await userLocation.loc
+            const [lat, lon] = loc.split(',');
 
         // Fetch hourly weather
         const hourlyApiUrl = `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=${apiKey}`;
