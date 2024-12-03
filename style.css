@@ -21,6 +21,7 @@ body{
     min-height: 50vh;
     position: relative;
     z-index: 1;
+    user-select: none;
 }
 
 #loading{
@@ -88,15 +89,25 @@ body{
 
 .day{
     min-width: 110px;
+    user-select: none;
 }
-
-/* For Firefox */
+/* 
+For Firefox
 #forecastContainer {
-    scrollbar-width: thin; /* Options: auto, thin, none */
-    scrollbar-color: rgba(0, 0, 0, 0.3) transparent; /* Thumb and track color */
-}
+    scrollbar-width: thin; 
+    scrollbar-color: rgba(0, 0, 0, 0.3) transparent; 
+} */
 
 /* For WebKit browsers (Chrome, Safari, Edge) */
+.days::-webkit-scrollbar {
+    height: 8px;
+}
+
+.days::-webkit-scrollbar-thumb {
+    background-color: rgba(0, 0, 0, 0.192);
+    border-radius: 12px;
+}
+
 #forecastContainer::-webkit-scrollbar {
     height: 8px;
 }
@@ -149,6 +160,10 @@ body{
     .display{
         min-height: 10vh;
         scale: 0.5;
+    }
+
+    .opt h4,h5,i{
+        font-size: 0.8rem !important;
     }
 
 }

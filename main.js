@@ -339,7 +339,7 @@ const forecastbyDay = async (dataw) => {
             const selectedWeatherForecast = forecast[2] || forecast[0];
 
             const cardHTML = `
-                <div class="col day text-dark card m-1 p-1 ${index == 0 ? "bg-light" : ""}" data-weather='${JSON.stringify({ "weather": selectedWeatherForecast.weather, "dayName": dayName })}'>
+                <div class="col day text-dark card m-1 p-1 ${index == 0 ? "bg-transparent" : ""}" data-weather='${JSON.stringify({ "weather": selectedWeatherForecast.weather, "dayName": dayName })}'>
                     <h5>${dayName}</h5>
                     <p>${day}</p>
                     <p>${forecast[0].temp}℃ <img width="25" src=${forecast[0].icon}></img></p>
@@ -350,8 +350,8 @@ const forecastbyDay = async (dataw) => {
 
         document.querySelectorAll('.day').forEach((card, i) => {
             card.addEventListener('click', function () {
-                document.querySelectorAll('.day').forEach(e => e.classList.remove('bg-light'));
-                card.classList.add('bg-light')
+                document.querySelectorAll('.day').forEach(e => e.classList.remove('bg-transparent'));
+                card.classList.add('bg-transparent')
                 const weatherData = JSON.parse(this.getAttribute('data-weather'));
                 dayDisplay(weatherData);
             });
@@ -420,7 +420,7 @@ const displayCities = () => {
         const row = document.createElement('tr');
         row.innerHTML = `
             <td class="cities">${city}</a></td>
-            <td><i class="fa-solid fa-trash text-secondary" data-index="${index}"></i></td>    
+            <td colspan="2"><i class="fa-solid fa-trash text-secondary" data-index="${index}"></i></td>    
         `
         savedList.appendChild(row);
         document.querySelectorAll(".cities").forEach(city => {
@@ -549,3 +549,21 @@ hourlyForecast.addEventListener('touchmove', (e) => {
     const walk = (x - touchStartX) * 3; // Multiply by 3 for faster scroll
     hourlyForecast.scrollLeft = touchStartScrollLeft - walk;
 });
+
+// Media query 
+const mediaQuery = window.matchMedia('(max-width: 992px)');
+
+
+function onScreenChange(e){
+    if(e.matches) {
+        document.getElementById('saved-list').classList.add('d-none')
+        document.getElementById('down').addEventListener('click', () => {
+            document.getElementById('saved-list').classList.toggle('d-none');
+        })
+    }else{
+        document.getElementById('saved-list').classList.remove('d-none')
+    }
+}
+
+
+mediaQuery.addEventListener('change', onScreenChange)
