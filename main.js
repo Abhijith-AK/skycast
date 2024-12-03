@@ -551,21 +551,20 @@ hourlyForecast.addEventListener('touchmove', (e) => {
 });
 
 // Media query 
-const mediaQuery = window.matchMedia('(max-width: 992px)');
+function checkViewport() {
+  const savedList = document.getElementById('saved-list');
+  const downButton = document.getElementById('down');
 
-
-function onScreenChange(e){
-    if(e.matches) {
-        document.getElementById('saved-list').classList.add('d-none')
-        document.getElementById('down').addEventListener('click', () => {
-            document.getElementById('saved-list').classList.toggle('d-none');
-        })
-    }else{
-        document.getElementById('saved-list').classList.remove('d-none')
-    }
+  if (window.innerWidth <= 992) {
+    savedList.classList.add('d-none');
+    downButton.addEventListener('click', () => {
+      savedList.classList.toggle('d-none');
+    });
+  } else {
+    savedList.classList.remove('d-none');
+  }
 }
 
-onScreenChange(mediaQuery);
-
-
-mediaQuery.addEventListener('change', onScreenChange)
+// Run the check on load and resize
+window.addEventListener('resize', checkViewport);
+window.addEventListener('DOMContentLoaded', checkViewport);
