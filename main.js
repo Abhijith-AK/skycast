@@ -565,5 +565,7 @@ function onScreenChange(e){
     }
 }
 
+onScreenChange(mediaQuery);
+
 
 mediaQuery.addEventListener('change', onScreenChange)
