@@ -222,6 +222,7 @@ const getSearch = async () => {
 }
 
 const searchAnDisplay = async () => {
+    document.querySelectorAll('.day').innerHTML = ''
     const weatherData = await getSearch();
     displayData(weatherData)
     const hourlyData = await fetchSearchHourlyForcast();
@@ -424,6 +425,7 @@ const displayCities = () => {
         savedList.appendChild(row);
         document.querySelectorAll(".cities").forEach(city => {
             city.addEventListener('click', async () => {
+                document.querySelectorAll('.day').innerHTML = ''
                 search.value = city.textContent;
                 const weatherData = await getSearch();
                 displayData(weatherData);

@@ -90,6 +90,12 @@ body{
     min-width: 110px;
 }
 
+/* For Firefox */
+#forecastContainer {
+    scrollbar-width: thin; /* Options: auto, thin, none */
+    scrollbar-color: rgba(0, 0, 0, 0.3) transparent; /* Thumb and track color */
+}
+
 /* For WebKit browsers (Chrome, Safari, Edge) */
 #forecastContainer::-webkit-scrollbar {
     height: 8px;
@@ -98,12 +104,6 @@ body{
 #forecastContainer::-webkit-scrollbar-thumb {
     background-color: rgba(0, 0, 0, 0.3);
     border-radius: 12px;
-}
-
-/* For Firefox */
-#forecastContainer {
-    scrollbar-width: thin; /* Options: auto, thin, none */
-    scrollbar-color: rgba(0, 0, 0, 0.3) transparent; /* Thumb and track color */
 }
 
 .light{
