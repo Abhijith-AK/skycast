@@ -175,7 +175,7 @@ const displayData = async (userLocWeatherData) => {
          <h1 class="opt pt-3 ${textColorClass}"><span id="city">${dataSet.name}</span> <span id="datee" class="fs-4"></span></h1>
                     <div class="opt row my-5 py-5 temp ${textColorClass}">
                         <h1 class="my-2"><span id="temperature">${dataSet.temperature}</span>℃</h1>
-                        <h4 id="currWeather" class="">${dataSet.currentWeather} <img id="iconImg" width="50" src="https://openweathermap.org/img/wn/${dataSet.currentWeatherIcon}@2x.png"></img></h4>
+                        <h4 id="currWeather" class="">${dataSet.currentWeather} <img id="iconImg" width="50" src="./ASSETS/${dataSet.currentWeatherIcon}@2x.png"></img></h4>
                     </div>
                     <div class="row align-items-end para">
                         <div class="opt col-md-3 col-6 ${paeameterColorClass}">  
@@ -285,7 +285,7 @@ const displayHourlyForecast = (data) => {
         const temp = (hour.main.temp - 273.15).toFixed(1); // Convert Kelvin to Celsius
         const weather = hour.weather[0].main;
         const chanceOfRain = (hour.pop * 100).toFixed(0); // Convert probability to percentage
-        const icon = `https://openweathermap.org/img/wn/${hour.weather[0].icon}.png`;
+        const icon = `./ASSETS/${hour.weather[0].icon}.png`;
 
         forecastContainer.innerHTML += `
         <div class="forecast-item">
@@ -318,7 +318,7 @@ const forecastbyDay = async (dataw) => {
             forecastbyDay[day].push({
                 time: date.toLocaleDateString([], { hour: '2-digit', minute: '2-digit' }),
                 temp: (item.main.temp - 273.15).toFixed(1),
-                icon: `https://openweathermap.org/img/wn/${item.weather[0].icon}.png`,
+                icon: `./ASSETS/${item.weather[0].icon}@2x.png`,
                 weather: item,
             });
         });
@@ -393,7 +393,7 @@ const dayDisplay = async (data) => {
         display.style.backgroundSize = 'cover'
         document.getElementById("datee").textContent = `(${data.dayName})`;
         document.getElementById("temperature").textContent = `${dataSet.temperature}`;
-        document.getElementById("currWeather").innerHTML = `${dataSet.currentWeather} <img id="iconImg" width="50" src="https://openweathermap.org/img/wn/${dataSet.currentWeatherIcon}@2x.png"></img>`;
+        document.getElementById("currWeather").innerHTML = `${dataSet.currentWeather} <img id="iconImg" width="50" src="./ASSETS/${dataSet.currentWeatherIcon}@2x.png"></img>`;
         document.getElementById("humidity").textContent = `${dataSet.humidity}%`;
         document.getElementById("wind").textContent = `${dataSet.windDirec} ${dataSet.windSpeed}km/h`;
         document.getElementById("chance").textContent = `${dataSet.chance}%`;
