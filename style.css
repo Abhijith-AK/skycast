@@ -10,9 +10,6 @@ body{
 
 #displayCont{
         background: rgba(255, 255, 255, 0.2); /* Semi-transparent white */
-        /* backdrop-filter: blur(15px); Apply blur to the background */
-        /* -webkit-backdrop-filter: blur(15px); Safari support */
-        /* border: 1px solid rgba(255, 255, 255, 0.3); Add subtle border */
         border-radius: 15px; /* Rounded corners */
         box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1); /* Soft shadow */
         color: #fff; /* Text color */
@@ -24,6 +21,11 @@ body{
     min-height: 50vh;
     position: relative;
     z-index: 1;
+}
+
+#loading{
+    background: url(./ASSETS/cloudy.webp) no-repeat center;
+    background-size: cover;
 }
 
 #temperature{
@@ -88,13 +90,20 @@ body{
     min-width: 110px;
 }
 
-#forecastContainer::-webkit-scrollbar{
+/* For WebKit browsers (Chrome, Safari, Edge) */
+#forecastContainer::-webkit-scrollbar {
     height: 8px;
 }
 
-#forecastContainer::-webkit-scrollbar-thumb{
+#forecastContainer::-webkit-scrollbar-thumb {
     background-color: rgba(0, 0, 0, 0.3);
     border-radius: 12px;
+}
+
+/* For Firefox */
+#forecastContainer {
+    scrollbar-width: thin; /* Options: auto, thin, none */
+    scrollbar-color: rgba(0, 0, 0, 0.3) transparent; /* Thumb and track color */
 }
 
 .light{
@@ -131,4 +140,15 @@ body{
 #search::placeholder {
     color: #888; 
     font-style: italic; 
+}
+
+@media screen and (max-width: 571px) {
+    .displayCont{
+        padding: 10px;
+    }
+    .display{
+        min-height: 10vh;
+        scale: 0.5;
+    }
+
 }

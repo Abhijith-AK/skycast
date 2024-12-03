@@ -35,6 +35,18 @@ const weathers = {
     '50n': 'mistNight.webp',
 }
 
+// Loading
+const loading = (isLoading) => {
+    if(isLoading){
+        display.classList.add('d-none')
+        document.getElementById('loading').classList.remove('d-none')
+    }
+    else {
+        document.getElementById('loading').classList.add('d-none')
+        display.classList.remove('d-none')
+    }
+}
+
 // validate city function
 const validateCity = async (city) => {
     try {
@@ -61,8 +73,8 @@ const validateCity = async (city) => {
 
 const getUserLocWeather = async () => {
     try {
+        loading(true);
         const response = await fetch(userIpLocUrl);
-
         let latitude, longitude;
 
         if (!response.ok) {
@@ -72,17 +84,18 @@ const getUserLocWeather = async () => {
         const locationData = await response.json();
         const loc = locationData.loc;
         [latitude, longitude] = loc.split(',');
-
-        return fetchWeatherData(latitude, longitude);
+        loading(false);
+        return fetchWeatherData(latitude, longitude); 
     } catch (err) {
         console.error("Error fetching user location weather:", err);
         if (navigator.geolocation) {
+            loading(true);
             return new Promise((resolve, reject) => {
                 navigator.geolocation.getCurrentPosition(
                     (position) => {
                         latitude = position.coords.latitude;
                         longitude = position.coords.longitude;
-
+                        loading(false);
                         fetchWeatherData(latitude, longitude).then(resolve).catch(reject);
                     },
                     (error) => {
@@ -100,6 +113,7 @@ const getUserLocWeather = async () => {
 
 const fetchWeatherData = async (latitude, longitude) => {
     try {
+        loading(true)
         const userLocWeatherApi = `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=${apiKey}`;
         const weatherDataResp = await fetch(userLocWeatherApi);
 
@@ -108,6 +122,7 @@ const fetchWeatherData = async (latitude, longitude) => {
         }
 
         const weatherData = await weatherDataResp.json();
+        loading(false)
         return weatherData;
     } catch (error) {
         console.error("Error fetching weather data:", error);
@@ -122,20 +137,6 @@ document.addEventListener('DOMContentLoaded', async () => {
     fetchHourlyForecast();
     const hourlyData = await fetchHourlyForecast()
     displayHourlyForecast(hourlyData)
-    // document.getElementById('bookmark').addEventListener("click",async e => {
-    //     const city = document.getElementById('city').textContent.toLowerCase();
-    //     const cities = getSavedCities();
-    //     if (!cities.includes(city)) {
-    //         cities.push(city);
-    //         saveCities(cities);
-    //         displayCities();
-    //         search.value = city;
-    //         const weatherData = await getSearch();
-    //         displayData(weatherData);
-    //     } else {
-    //         alert("City already saved!");
-    //     }
-    // })
 })
 
 const displayData = async (userLocWeatherData) => {
@@ -193,8 +194,8 @@ const displayData = async (userLocWeatherData) => {
                             <h5 id="chance">${dataSet.chance}%</h5>
                         </div>
                         <div class="opt col-md-3 col-6 ${paeameterColorClass}">
-                            <h4><em>Sunrise | Sunset</h4>
-                            <i class="ri-sun-cloudy-fill me-3 fs-4"></i> | <i class="ri-sun-foggy-fill ms-3 fs-4"></i> </img>
+                            <h4><em>Sunrise | Sunset </h4>
+                            <i class="ri-sun-cloudy-fill me-3 fs-4"></i> | <i class="ri-sun-foggy-fill ms-3 fs-4"></i>
                             <h6 id="sun" class="">${dataSet.sunrise} | ${dataSet.sunset}</h6>
                         </div>
                     </div>
@@ -208,9 +209,11 @@ const getSearch = async () => {
     city = search.value.trim();
     validateCity(city)
     try {
+        loading(true)
         const apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}`
         const weatherDataResp = await fetch(apiUrl);
         const weatherData = await weatherDataResp.json()
+        loading(false)
         return weatherData;
     } catch (err) {
         console.log(err)
@@ -230,7 +233,7 @@ search.addEventListener('keydown', (event) => {
     if (event.key === 'Enter') {
         const inputValue = search.value;
         if (inputValue) {
-            searchAnDisplay(); 
+            searchAnDisplay();
         } else {
             alert('Please enter a value!');
         }
@@ -259,9 +262,9 @@ const fetchHourlyForecast = async () => {
 
 const fetchSearchHourlyForcast = async () => {
     try {
+        forecastContainer.innerHTML = "<p>Loading....</p>"
         // Fetch hourly weather
         const hourlyApiUrl = `https://api.openweathermap.org/data/2.5/forecast?q=${city}&appid=${apiKey}`;
-        console.log(hourlyApiUrl)
         const forecastData = await fetch(hourlyApiUrl)
             .then(response => response.json());
         return forecastData;
