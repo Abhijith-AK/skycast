@@ -37,7 +37,7 @@ const weathers = {
 
 // Loading
 const loading = (isLoading) => {
-    if(isLoading){
+    if (isLoading) {
         display.classList.add('d-none')
         document.getElementById('loading').classList.remove('d-none')
     }
@@ -85,7 +85,7 @@ const getUserLocWeather = async () => {
         const loc = locationData.loc;
         [latitude, longitude] = loc.split(',');
         loading(false);
-        return fetchWeatherData(latitude, longitude); 
+        return fetchWeatherData(latitude, longitude);
     } catch (err) {
         console.error("Error fetching user location weather:", err);
         if (navigator.geolocation) {
@@ -475,6 +475,8 @@ const deleteCity = (index) => {
 // bookmark
 const bookmarkfn = () => {
     return document.getElementById('bookmark').addEventListener("click", async e => {
+        document.getElementById('saved-list').classList.remove('d-none');
+        document.getElementById('downArr').classList.replace('fa-chevron-down', 'fa-chevron-up')
         const city = document.getElementById('city').textContent.toLowerCase();
         const cities = getSavedCities();
         if (!cities.includes(city)) {
@@ -554,24 +556,24 @@ hourlyForecast.addEventListener('touchmove', (e) => {
 
 // Media query 
 function checkViewport() {
-  const savedList = document.getElementById('saved-list');
-  const downButton = document.getElementById('down');
-  const downArrow = document.getElementById('downArr');
-  if (window.innerWidth <= 992) {
-    savedList.classList.add('d-none');
-    downButton.addEventListener('click', () => {
-      savedList.classList.toggle('d-none');
-      if(savedList.classList.contains('d-none')){
-        downArrow.classList.add('fa-chevron-down');
-        downArrow.classList.remove('fa-chevron-up');
-      }else{
-        downArrow.classList.remove('fa-chevron-down');
-        downArrow.classList.add('fa-chevron-up');
-      }
-    });
-  } else {
-    savedList.classList.remove('d-none');
-  }
+    const savedList = document.getElementById('saved-list');
+    const downButton = document.getElementById('down');
+    const downArrow = document.getElementById('downArr');
+    if (window.innerWidth <= 992) {
+        savedList.classList.add('d-none');
+        downButton.addEventListener('click', () => {
+            savedList.classList.toggle('d-none');
+            if (savedList.classList.contains('d-none')) {
+                downArrow.classList.add('fa-chevron-down');
+                downArrow.classList.remove('fa-chevron-up');
+            } else {
+                downArrow.classList.remove('fa-chevron-down');
+                downArrow.classList.add('fa-chevron-up');
+            }
+        });
+    } else {
+        savedList.classList.remove('d-none');
+    }
 }
 
 // Run the check on load and resize
