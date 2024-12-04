@@ -445,6 +445,8 @@ const displayCities = () => {
 
 // add a city
 const addCity = async () => {
+    document.getElementById('saved-list').classList.remove('d-none');
+    document.getElementById('downArr').classList.replace('fa-chevron-down', 'fa-chevron-up')
     const city = prompt("Enter the city name: ").toLowerCase();
     if (city) {
         const cities = getSavedCities();
@@ -554,11 +556,18 @@ hourlyForecast.addEventListener('touchmove', (e) => {
 function checkViewport() {
   const savedList = document.getElementById('saved-list');
   const downButton = document.getElementById('down');
-
+  const downArrow = document.getElementById('downArr');
   if (window.innerWidth <= 992) {
     savedList.classList.add('d-none');
     downButton.addEventListener('click', () => {
       savedList.classList.toggle('d-none');
+      if(savedList.classList.contains('d-none')){
+        downArrow.classList.add('fa-chevron-down');
+        downArrow.classList.remove('fa-chevron-up');
+      }else{
+        downArrow.classList.remove('fa-chevron-down');
+        downArrow.classList.add('fa-chevron-up');
+      }
     });
   } else {
     savedList.classList.remove('d-none');
