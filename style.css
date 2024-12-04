@@ -53,7 +53,7 @@ body{
 }
 
 .blur-background {
-    background: url('https://via.placeholder.com/1920x1080') no-repeat center center fixed;
+    background: url('./ASSETS/1920x1080.png') no-repeat center center fixed;
     background-size: cover;
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px); /* For Safari */
